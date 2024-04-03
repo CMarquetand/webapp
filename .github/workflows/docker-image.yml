@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -tag webapp:$(date +%s) ./app
+      run: docker build -t webapp:$(date +%s) ./app
