@@ -34,4 +34,4 @@ jobs:
           context: .
           file: ./app  
           push: true
-          tags:  ${{ env.REGISTRY }}/${{ github.repository_owner }}:${{ github.sha }}
+          tags:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
