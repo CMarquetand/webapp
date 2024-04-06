@@ -47,6 +47,6 @@ jobs:
           #file: ./app/Dockerfile  
           push: true
           tags: |
-            ${{ GITHUB_REPOSITORY }}:latest
-            ${{ GITHUB_REPOSITORY }}:1.0.${{ GITHUB_RUN_NUMBER }}
+            ${{ github.repository }}:latest
+            ${{ github.repository }}:1.0.${{ github.run.number }}
           labels: ${{ steps.meta.outputs.labels }}
