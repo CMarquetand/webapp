@@ -46,5 +46,7 @@ jobs:
           context: ./app
           #file: ./app/Dockerfile  
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            latest
+            ${{ GITHUB_RUN_Number }}
           labels: ${{ steps.meta.outputs.labels }}
