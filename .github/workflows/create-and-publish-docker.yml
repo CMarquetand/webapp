@@ -13,17 +13,6 @@ env:
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
-  inject-new-repo-name:
-    runs-on: ubuntu-latest
-    env:
-      REPO_NAME_LOWER: ${{ github.repository }}
-    steps:
-      - name: Setup Lowercase Repository Name
-        run: echo "REPO_NAME_LOWER=${REPO_NAME_LOWER,,}" >> $GITHUB_ENV
-      - name: Use Lowercase Repository Name
-        run: |
-          echo "Lowercase repository name is $REPO_NAME_LOWER"
-          # Now, you can use $REPO_NAME_LOWER in any command within this and subsequent steps
   build-and-push-image:
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
