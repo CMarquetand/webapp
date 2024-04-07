@@ -37,8 +37,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-          type=raw,value=1.0.${{ github.run_number}}
-          type=ref,event=tag
+            type=raw,value=1.0.${{ github.run_number}}
+            type=ref,event=tag
           #type=raw,value=latest
           #flavor: latest=auto
       # This step uses the `docker/build-push-action` action to build the image, based on your repository's `Dockerfile`. If the build succeeds, it pushes the image to GitHub Packages.
