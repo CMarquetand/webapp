@@ -35,6 +35,11 @@ jobs:
         echo "Exporting environment variables from build.env"
         export $(cat build.env | xargs)
         echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
+        echo "Registry = ${{ env.REGISTRY }}"
+        echo "github_actor = ${{ github.actor }}"
+        echo "github_token =  ${{ secrets.GITHUB_TOKEN }}"
+        echo "image = ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+
 
     - name: Install Dependencies
       run: |
