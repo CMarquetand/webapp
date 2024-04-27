@@ -51,7 +51,7 @@ jobs:
 
     - name: Deploy Application
       run: |
-        echo "Deploying the application"
+        echo "Deploying the application succeeded"
       #  git checkout -B main
       #  cd deployment
       #  kustomize edit set image registry.gitlab.com/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
