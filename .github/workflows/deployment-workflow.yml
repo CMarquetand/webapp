@@ -37,8 +37,9 @@ jobs:
         echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
         echo "Registry = ${{ env.REGISTRY }}"
         echo "github_actor = ${{ github.actor }}"
-        echo "github_token =  ${{ secrets.GITHUB_TOKEN }}"
-        echo "image = ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+        echo "Actions_system_user =  ${{ secrets.ACTIONS_SYSTEM_USER }}"
+        echo "repository name= ${{ github.event.repository.name }}"
+      
 
 
     - name: Install Dependencies
