@@ -51,7 +51,7 @@ jobs:
 
   update-manifest:
     name: "Update Manifests"
-    needs: "build-and-push"
+    needs: "setup-environment"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Git checkout"
