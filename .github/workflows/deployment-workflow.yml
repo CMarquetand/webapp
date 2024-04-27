@@ -1,10 +1,10 @@
 name: Deployment Workflow
 
 on:
-  workflow_run:
-    workflows: ["Create and publish a Docker image"]
-    types:
-      - completed
+  #workflow_run:
+  #  workflows: ["Create and publish a Docker image"]
+  #  types:
+  #    - completed
   workflow_dispatch:
 
 jobs:
