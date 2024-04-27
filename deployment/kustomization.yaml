@@ -7,5 +7,7 @@ resources:
 - ingress.yaml
 namespace: github-webapp
 images:
+- name: ghcr.io/CMarquetand/webapp
+  newTag: aaf95a78e698ba0fdff2dfdc5b28b2ebfcc439fe
 - name: ghcr.io/cmarquetand/webapp
   newTag: 1.0.27
