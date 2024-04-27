@@ -9,3 +9,5 @@ namespace: github-webapp
 images:
 - name: ghcr.io/CMarquetand/webapp
   newTag: a7941d80035fee9d62e3c49f23e1a516007b898f
+- name: ghcr.io/cmarquetand/webapp
+  newTag: 6994e89efa0627e829166b029688309eef0868e3
