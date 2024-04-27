@@ -1,0 +1,61 @@
+name: Deployment Workflow
+
+on:
+  workflow_run:
+    workflows: ["Create and publish a Docker image"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  check_previous_workflow:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      should_run: ${{ steps.check_run.conclusion == 'success' }}
+
+    steps:
+      - name: Check if previous workflow was successful
+        id: check_run
+        run: echo "Previous workflow was successful, proceeding to deployment."
+
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Environment
+      run: |
+        echo "Output from build stage"
+        echo ${{ secrets.USERNAME }}
+        echo "Exporting environment variables from build.env"
+        export $(cat build.env | xargs)
+        echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
+
+    - name: Install Dependencies
+      run: |
+        apt-get update && apt-get install -y git curl bash coreutils
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+        mv kustomize /usr/local/bin/
+
+    - name: Configure Git
+      run: |
+        echo "Configure Git"
+      #  git remote set-url origin https://${{ secrets.USERNAME }}:${{ secrets.PAT_TOKEN }}@gitlab.com/carolin.marquetand/webapp.git
+      #  git config --global user.email "gitlab@gitlab.com"
+      #  git config --global user.name "GitLab CI/CD"
+
+    - name: Deploy Application
+      run: |
+        echo "Deploying the application"
+      #  git checkout -B main
+      #  cd deployment
+      #  kustomize edit set image registry.gitlab.com/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+      #  cat kustomization.yaml
+      #  git commit -am '[skip ci] DEV manifest-image update tag:${{ env.DOCKER_IMAGE_TAG }}'
+      #  git push origin main
+
