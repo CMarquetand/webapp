@@ -37,7 +37,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=1.0.${{ github.run_number}}
+            type=raw,value=${{ github.sha }}
             type=ref,event=tag
           #type=raw,value=latest
           #flavor: latest=auto

@@ -7,6 +7,10 @@ on:
   #    - completed
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   check_previous_workflow:
     runs-on: ubuntu-latest
@@ -19,7 +23,7 @@ jobs:
         id: check_run
         run: echo "Previous workflow was successful, proceeding to deployment."
 
-  deploy:
+  setup-environment:
     runs-on: ubuntu-latest
     container:
       image: ubuntu:latest
@@ -36,11 +40,8 @@ jobs:
         export $(cat build.env | xargs)
         echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
         echo "Registry = ${{ env.REGISTRY }}"
+        echo "Image_name= ${{ env.IMAGE_NAME }}"
         echo "github_actor = ${{ github.actor }}"
-        echo "Actions_system_user =  ${{ secrets.ACTIONS_SYSTEM_USER }}"
-        echo "repository name= ${{ github.event.repository.name }}"
-      
-
 
     - name: Install Dependencies
       run: |
@@ -48,20 +49,25 @@ jobs:
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
         mv kustomize /usr/local/bin/
 
-    - name: Configure Git
-      run: |
-        echo "Configure Git"
-      #  git remote set-url origin https://${{ secrets.USERNAME }}:${{ secrets.PAT_TOKEN }}@gitlab.com/carolin.marquetand/webapp.git
-      #  git config --global user.email "gitlab@gitlab.com"
-      #  git config --global user.name "GitLab CI/CD"
+  update-manifest:
+    name: "Update Manifests"
+    needs: "build-and-push"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Git checkout"
+        uses: "actions/checkout@v2"
+        with:
+          token: ${{ secrets.ACTIONS_SYSTEM_USER }} # [2]
 
-    - name: Deploy Application
-      run: |
-        echo "Deploying the application succeeded"
-      #  git checkout -B main
-      #  cd deployment
-      #  kustomize edit set image registry.gitlab.com/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
-      #  cat kustomization.yaml
-      #  git commit -am '[skip ci] DEV manifest-image update tag:${{ env.DOCKER_IMAGE_TAG }}'
-      #  git push origin main
+      - name: "Update Deployment Image Tag" # [3]
+        working-directory: "deployment"
+        run: |
+          kustomize edit set image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          cat kustomization.yaml
 
+      - name: "Push Updated Image Tag" # [4]
+        run: |
+          git config --global user.name "@CMarquetand-bot"
+          git config --global user.email "CMarquetand-bot@users.noreply.github.com"
+          git commit -am "feat: Update deployment image tag to ${{ github.sha }} [skip ci]"
+          git push
