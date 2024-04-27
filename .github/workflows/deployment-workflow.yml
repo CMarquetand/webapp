@@ -9,7 +9,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  #IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: cmarquetand/webapp
 
 jobs:
   check_previous_workflow:
