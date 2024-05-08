@@ -51,22 +51,22 @@ jobs:
         mv kustomize /usr/local/bin/
 
   update-manifest:
-    name: "Update Manifests"
-    needs: "setup-environment"
-    runs-on: "ubuntu-latest"
+    name: Update Manifests
+    needs: setup-environment
+    runs-on: ubuntu-latest
     steps:
-      - name: "Git checkout"
-        uses: "actions/checkout@v2"
+      - name: Git checkout
+        uses: actions/checkout@v2
         with:
-          token: ${{ secrets.ACTIONS_SYSTEM_USER }} # [2]
+          token: ${{ secrets.PAT_VARIABLE }} 
 
-      - name: "Update Deployment Image Tag" # [3]
-        working-directory: "deployment"
+      - name: Update Deployment Image Tag
+        working-directory: deployment
         run: |
           kustomize edit set image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           cat kustomization.yaml
 
-      - name: "Push Updated Image Tag" # [4]
+      - name: Push Updated Image Tag 
         run: |
           git config --global user.name "@CMarquetand-bot"
           git config --global user.email "CMarquetand-bot@users.noreply.github.com"
