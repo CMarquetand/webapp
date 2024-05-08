@@ -10,4 +10,4 @@ images:
 - name: ghcr.io/CMarquetand/webapp
   newTag: a7941d80035fee9d62e3c49f23e1a516007b898f
 - name: ghcr.io/cmarquetand/webapp
-  newTag: e490faa666a9aa642ee52ade32ed406c9f58bc78
+  newTag: e8cb03e
