@@ -2,7 +2,7 @@ name: Deployment Workflow
 
 on:
   #workflow_run:
-  #  workflows: ["Create and publish a Docker image"]
+  #  workflows: ["Build and Push a Docker Image"]
   #  types:
   #    - completed
   workflow_dispatch:
