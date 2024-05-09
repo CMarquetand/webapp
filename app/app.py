@@ -16,22 +16,27 @@ app.config.from_object('config')
 
 @app.errorhandler(401)
 def fun_401(error):
+    '''error 401'''
     return render_template("page_401.html"), 401
 
 @app.errorhandler(403)
 def fun_403(error):
+    '''error 403'''
     return render_template("page_403.html"), 403
 
 @app.errorhandler(404)
 def fun_404(error):
+    '''error 404'''
     return render_template("page_404.html"), 404
 
 @app.errorhandler(405)
 def fun_405(error):
+    '''error 405'''
     return render_template("page_405.html"), 405
 
 @app.errorhandler(413)
 def fun_413(error):
+    '''error 413'''
     return render_template("page_413.html"), 413
 
 
@@ -40,14 +45,17 @@ def fun_413(error):
 
 @app.route("/")
 def fun_root():
+    '''return index.html'''
     return render_template("index.html")
 
 @app.route("/public/")
 def fun_public():
+    '''public_page.html'''
     return render_template("public_page.html")
 
 @app.route("/private/")
 def fun_private():
+    '''session private user'''
     if "current_user" in session.keys():
         notes_list = read_note_from_db(session['current_user'])
         notes_table = zip([x[0] for x in notes_list],\
@@ -67,6 +75,7 @@ def fun_private():
 
 @app.route("/admin/")
 def fun_admin():
+    '''session admin'''
     if session.get("current_user", None) == "ADMIN":
         user_list = list_users()
         user_table = zip(range(1, len(user_list)+1),\
@@ -83,6 +92,7 @@ def fun_admin():
 
 @app.route("/write_note", methods = ["POST"])
 def fun_write_note():
+    '''function to write a note'''
     text_to_write = request.form.get("text_note_to_take")
     write_note_into_db(session['current_user'], text_to_write)
 
@@ -90,6 +100,7 @@ def fun_write_note():
 
 @app.route("/delete_note/<note_id>", methods = ["GET"])
 def fun_delete_note(note_id):
+    '''function to delete a note'''
     if session.get("current_user", None) == match_user_id_with_note_id(note_id): # Ensure the current user is NOT operating on other users' note.
         delete_note_from_db(note_id)
     else:
@@ -100,6 +111,7 @@ def fun_delete_note(note_id):
 # Reference: http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
+    '''extension for fileupload'''
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
