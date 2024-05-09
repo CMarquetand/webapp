@@ -1,12 +1,14 @@
 import os
 import datetime
 import hashlib
-from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
-from database import list_users, verify, delete_user_from_db, add_user
-from database import read_note_from_db, write_note_into_db, delete_note_from_db, match_user_id_with_note_id
-from database import image_upload_record, list_images_for_user, match_user_id_with_image_uid, delete_image_from_db
+from flask import (Flask, session, url_for, redirect, render_template, 
+                   request, abort, flash)
+from database import (list_users, verify, delete_user_from_db, add_user,
+                      read_note_from_db, write_note_into_db, 
+                      delete_note_from_db, match_user_id_with_note_id)
+from database import (image_upload_record, list_images_for_user, 
+                      match_user_id_with_image_uid, delete_image_from_db)
 from werkzeug.utils import secure_filename
-
 
 
 app = Flask(__name__)
@@ -101,7 +103,7 @@ def fun_write_note():
 @app.route("/delete_note/<note_id>", methods = ["GET"])
 def fun_delete_note(note_id):
     '''function to delete a note'''
-    if session.get("current_user", None) == match_user_id_with_note_id(note_id): # Ensure the current user is NOT operating on other users' note.
+    if session.get("current_user", None) == match_user_id_with_note_id(note_id): 
         delete_note_from_db(note_id)
     else:
         return abort(401)
@@ -143,7 +145,8 @@ def fun_upload_image():
 @app.route("/delete_image/<image_uid>", methods = ["GET"])
 def fun_delete_image(image_uid):
     '''delete_image'''
-    if session.get("current_user", None) == match_user_id_with_image_uid(image_uid): # Ensure the current user is NOT operating on other users' note.
+        # Ensure the current user is NOT operating on other users' note.
+    if session.get("current_user", None) == match_user_id_with_image_uid(image_uid): 
         # delete the corresponding record in database
         delete_image_from_db(image_uid)
         # delete the corresponding image file from image pool
@@ -152,9 +155,6 @@ def fun_delete_image(image_uid):
     else:
         return abort(401)
     return(redirect(url_for("fun_private")))
-
-
-
 
 
 
