@@ -1,3 +1,4 @@
+''' webapp using flask to serve some webpages '''
 import os
 import datetime
 import hashlib
@@ -147,8 +148,9 @@ def fun_delete_image(image_uid):
         # delete the corresponding record in database
         delete_image_from_db(image_uid)
         # delete the corresponding image file from image pool
+        files_in_directory = os.listdir(app.config['UPLOAD_FOLDER'])
         image_to_delete_from_pool = [
-          y for y in [x for x in os.listdir(app.config['UPLOAD_FOLDER'])]
+          y for y in files_in_directory
           if y.split("-", 1)[0] == image_uid][0]
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], image_to_delete_from_pool))
     else:
@@ -163,7 +165,7 @@ def fun_login():
     id_submitted = request.form.get("id").upper()
     if (id_submitted in list_users()) and verify(id_submitted, request.form.get("pw")):
         session['current_user'] = id_submitted
-    
+
     return redirect(url_for("fun_root"))
 
 @app.route("/logout/")
@@ -172,22 +174,25 @@ def fun_logout():
     session.pop("current_user", None)
     return redirect(url_for("fun_root"))
 
-@app.route("/delete_user/<id>/", methods = ['GET'])
-def fun_delete_user(id):
+@app.route("/delete_user/<user_id>/", methods=['GET'])
+def fun_delete_user(user_id):
     '''delete user'''
     if session.get("current_user", None) == "ADMIN":
-        if id == "ADMIN": # ADMIN account can't be deleted.
+        if user_id == "ADMIN":  # ADMIN account can't be deleted.
             return abort(403)
 
         # [1] Delete this user's images in image pool
-        images_to_remove = [x[0] for x in list_images_for_user(id)]
+        images_to_remove = [x[0] for x in list_images_for_user(user_id)]
         for f in images_to_remove:
+            images_in_directory = os.listdir(app.config['UPLOAD_FOLDER'])
             image_to_delete_from_pool = [
-              y for y in [x for x in os.listdir(app.config['UPLOAD_FOLDER'])]
-              if y.split("-", 1)[0] == f][0]
+                y for y in images_in_directory
+                if y.split("-", 1)[0] == f
+            ][0]
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], image_to_delete_from_pool))
-        # [2] Delele the records in database files
-        delete_user_from_db(id)
+        
+        # [2] Delete the records in database files
+        delete_user_from_db(user_id)
         return redirect(url_for("fun_admin"))
     return abort(401)
 
@@ -195,15 +200,16 @@ def fun_delete_user(id):
 def fun_add_user():
     '''add user'''
     if session.get("current_user", None) == "ADMIN": # only Admin should be able to add user.
-        # before we add the user, we need to ensure this is doesn't exsit in database. 
+        # before we add the user, we need to ensure this is doesn't exsit in database.
         # We also need to ensure the id is valid.
         if request.form.get('id').upper() in list_users():
             user_list = list_users()
             user_table = zip(range(1, len(user_list)+1),\
                             user_list,\
-                            [x + y for x,y in zip(["/delete_user/"] 
+                            [x + y for x,y in zip(["/delete_user/"]
                             * len(user_list), user_list)])
-            return(render_template("admin.html", id_to_add_is_duplicated = True, users = user_table))
+            return render_template("admin.html",\
+                   id_to_add_is_duplicated = True, users = user_table)
         if " " in request.form.get('id') or "'" in request.form.get('id'):
             user_list = list_users()
             user_table = zip(range(1, len(user_list)+1),\
