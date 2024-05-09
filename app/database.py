@@ -104,7 +104,7 @@ def write_note_into_db(id, note_to_write):
     _conn.close()
 
 def delete_note_from_db(note_id):
-     '''delete note from db'''
+    '''delete note from db'''
     _conn = sqlite3.connect(note_db_file_location)
     _c = _conn.cursor()
 
@@ -114,7 +114,7 @@ def delete_note_from_db(note_id):
     _conn.close()
 
 def image_upload_record(uid, owner, image_name, timestamp):
-     '''image upload'''
+    '''image upload'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
@@ -124,7 +124,7 @@ def image_upload_record(uid, owner, image_name, timestamp):
     _conn.close()
 
 def list_images_for_user(owner):
-     '''list images from user'''
+    '''list images from user'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
@@ -152,7 +152,7 @@ def match_user_id_with_image_uid(image_uid):
     return result
 
 def delete_image_from_db(image_uid):
-     '''delete image from db'''
+    '''delete image from db'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
