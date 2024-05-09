@@ -46,7 +46,8 @@ def delete_user_from_db(user_id):
     _conn.commit()
     _conn.close()
 
-    # when we delete a user FROM database USERS, we also need to delete all his or her notes data FROM database NOTES
+    # when we delete a user FROM database USERS,
+    # we also need to delete all his or her notes data FROM database NOTES
     _conn = sqlite3.connect(NOTE_DB_FILE_LOCATION)
     _c = _conn.cursor()
     _c.execute("DELETE FROM notes WHERE user = ?;", (user_id))
@@ -67,7 +68,8 @@ def add_user(user_id, pw):
     _conn = sqlite3.connect(USER_DB_FILE_LOCATION)
     _c = _conn.cursor()
 
-    _c.execute("INSERT INTO users values(?, ?)", (user_id.upper(), hashlib.sha256(pw.encode()).hexdigest()))
+    _c.execute("INSERT INTO users values(?, ?)",\
+            (user_id.upper(), hashlib.sha256(pw.encode()).hexdigest()))
 
     _conn.commit()
     _conn.close()
@@ -87,11 +89,12 @@ def read_note_from_db(user_id):
     return result
 
 def match_user_id_with_note_id(note_id):
-    ''' Given the note id, confirm if the current user is the owner of the note which is being operated.'''
+    ''' Given the note id, confirm if the current user 
+        is the owner of the note which is being operated.'''
     _conn = sqlite3.connect(NOTE_DB_FILE_LOCATION)
     _c = _conn.cursor()
 
-    command = "SELECT user FROM notes WHERE note_id = '" + note_id + "';" 
+    command = "SELECT user FROM notes WHERE note_id = '" + note_id + "';"
     _c.execute(command)
     result = _c.fetchone()[0]
 
@@ -138,7 +141,7 @@ def list_images_for_user(owner):
     _conn = sqlite3.connect(IMAGE_DB_FILE_LOCATION)
     _c = _conn.cursor()
 
-    command = "SELECT uid, timestamp, name FROM images WHERE owner = '{0}'".format(owner)
+    command = f"SELECT uid, timestamp, name FROM images WHERE owner = '{owner}'"
     _c.execute(command)
     result = _c.fetchall()
 
@@ -148,7 +151,8 @@ def list_images_for_user(owner):
     return result
 
 def match_user_id_with_image_uid(image_uid):
-    '''Given the note id, confirm if the current user is the owner of the note which is being operated.'''
+    '''Given the note id, confirm if the current user 
+       is the owner of the note which is being operated.'''
     _conn = sqlite3.connect(IMAGE_DB_FILE_LOCATION)
     _c = _conn.cursor()
 
