@@ -2,9 +2,15 @@
 name: Build and Push a Docker Image
 
 
+#on:
+#  push:
+#    branches: ['main']
+
 on:
-  push:
-    branches: ['main']
+  workflow_run:
+    workflows: ["Pylint"]
+    types:
+      - completed
 
 env:
   REGISTRY: ghcr.io
