@@ -6,7 +6,7 @@ metadata:
   name: github-webapp-deployment
   namespace: github-webapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: github-webapp
