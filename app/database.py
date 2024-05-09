@@ -7,6 +7,7 @@ note_db_file_location = "database_file/notes.db"
 image_db_file_location = "database_file/images.db"
 
 def list_users():
+    '''list user'''
     _conn = sqlite3.connect(user_db_file_location)
     _c = _conn.cursor()
 
@@ -18,6 +19,7 @@ def list_users():
     return result
 
 def verify(id, pw):
+    '''verify user'''
     _conn = sqlite3.connect(user_db_file_location)
     _c = _conn.cursor()
 
@@ -29,6 +31,7 @@ def verify(id, pw):
     return result
 
 def delete_user_from_db(id):
+    '''delete user'''
     _conn = sqlite3.connect(user_db_file_location)
     _c = _conn.cursor()
     _c.execute("DELETE FROM users WHERE id = ?;", (id))
@@ -52,6 +55,7 @@ def delete_user_from_db(id):
     _conn.close()
 
 def add_user(id, pw):
+    '''add user'''
     _conn = sqlite3.connect(user_db_file_location)
     _c = _conn.cursor()
 
@@ -61,6 +65,7 @@ def add_user(id, pw):
     _conn.close()
 
 def read_note_from_db(id):
+    '''read note from db'''
     _conn = sqlite3.connect(note_db_file_location)
     _c = _conn.cursor()
 
@@ -74,7 +79,7 @@ def read_note_from_db(id):
     return result
 
 def match_user_id_with_note_id(note_id):
-    # Given the note id, confirm if the current user is the owner of the note which is being operated.
+    ''' Given the note id, confirm if the current user is the owner of the note which is being operated.'''
     _conn = sqlite3.connect(note_db_file_location)
     _c = _conn.cursor()
 
@@ -88,6 +93,7 @@ def match_user_id_with_note_id(note_id):
     return result
 
 def write_note_into_db(id, note_to_write):
+    '''write note into db'''
     _conn = sqlite3.connect(note_db_file_location)
     _c = _conn.cursor()
 
@@ -98,6 +104,7 @@ def write_note_into_db(id, note_to_write):
     _conn.close()
 
 def delete_note_from_db(note_id):
+     '''delete note from db'''
     _conn = sqlite3.connect(note_db_file_location)
     _c = _conn.cursor()
 
@@ -107,6 +114,7 @@ def delete_note_from_db(note_id):
     _conn.close()
 
 def image_upload_record(uid, owner, image_name, timestamp):
+     '''image upload'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
@@ -116,6 +124,7 @@ def image_upload_record(uid, owner, image_name, timestamp):
     _conn.close()
 
 def list_images_for_user(owner):
+     '''list images from user'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
@@ -129,7 +138,7 @@ def list_images_for_user(owner):
     return result
 
 def match_user_id_with_image_uid(image_uid):
-    # Given the note id, confirm if the current user is the owner of the note which is being operated.
+    '''Given the note id, confirm if the current user is the owner of the note which is being operated.'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 
@@ -143,6 +152,7 @@ def match_user_id_with_image_uid(image_uid):
     return result
 
 def delete_image_from_db(image_uid):
+     '''delete image from db'''
     _conn = sqlite3.connect(image_db_file_location)
     _c = _conn.cursor()
 

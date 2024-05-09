@@ -17,6 +17,17 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  check_previous_workflow:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      should_run: ${{ steps.check_run.conclusion == 'success' }}
+
+    steps:
+      - name: Check if previous workflow was successful
+        id: check_run
+        run: echo "Previous workflow was successful, proceeding to deployment."
+        
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:

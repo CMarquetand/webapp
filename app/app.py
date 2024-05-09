@@ -117,6 +117,7 @@ def allowed_file(filename):
 
 @app.route("/upload_image", methods = ['POST'])
 def fun_upload_image():
+    '''upload_image'''
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -141,6 +142,7 @@ def fun_upload_image():
 
 @app.route("/delete_image/<image_uid>", methods = ["GET"])
 def fun_delete_image(image_uid):
+    '''delete_image'''
     if session.get("current_user", None) == match_user_id_with_image_uid(image_uid): # Ensure the current user is NOT operating on other users' note.
         # delete the corresponding record in database
         delete_image_from_db(image_uid)
@@ -158,6 +160,7 @@ def fun_delete_image(image_uid):
 
 @app.route("/login", methods = ["POST"])
 def fun_login():
+     '''login'''
     id_submitted = request.form.get("id").upper()
     if (id_submitted in list_users()) and verify(id_submitted, request.form.get("pw")):
         session['current_user'] = id_submitted
@@ -166,11 +169,13 @@ def fun_login():
 
 @app.route("/logout/")
 def fun_logout():
+    '''logout'''
     session.pop("current_user", None)
     return(redirect(url_for("fun_root")))
 
 @app.route("/delete_user/<id>/", methods = ['GET'])
 def fun_delete_user(id):
+    '''delete user'''
     if session.get("current_user", None) == "ADMIN":
         if id == "ADMIN": # ADMIN account can't be deleted.
             return abort(403)
@@ -188,6 +193,7 @@ def fun_delete_user(id):
 
 @app.route("/add_user", methods = ["POST"])
 def fun_add_user():
+    '''add user'''
     if session.get("current_user", None) == "ADMIN": # only Admin should be able to add user.
         # before we add the user, we need to ensure this is doesn't exsit in database. We also need to ensure the id is valid.
         if request.form.get('id').upper() in list_users():
