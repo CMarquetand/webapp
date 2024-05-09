@@ -1,11 +1,11 @@
 name: Deployment Workflow
 
 on:
-  #workflow_run:
-  #  workflows: ["Build and Push a Docker Image"]
-  #  types:
-  #    - completed
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Push a Docker Image"]
+    types:
+      - completed
+  #workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
