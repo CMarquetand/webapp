@@ -24,31 +24,31 @@ jobs:
         id: check_run
         run: echo "Previous workflow was successful, proceeding to deployment."
 
-  setup-environment:
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:latest
+#  setup-environment:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: ubuntu:latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v3
+#
+#    - name: Setup Environment
+#      run: |
+#        echo "Output from build stage"
+#        echo ${{ secrets.USERNAME }}
+#        echo "Exporting environment variables from build.env"
+#        export $(cat build.env | xargs)
+#        echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
+#        echo "Registry = ${{ env.REGISTRY }}"
+#        echo "Image_name= ${{ env.IMAGE_NAME }}"
+#        echo "github_actor = ${{ github.actor }}"
 
-    - name: Setup Environment
-      run: |
-        echo "Output from build stage"
-        echo ${{ secrets.USERNAME }}
-        echo "Exporting environment variables from build.env"
-        export $(cat build.env | xargs)
-        echo "BUILD_VERSION=${{ env.BUILD_VERSION }}"
-        echo "Registry = ${{ env.REGISTRY }}"
-        echo "Image_name= ${{ env.IMAGE_NAME }}"
-        echo "github_actor = ${{ github.actor }}"
-
-    - name: Install Dependencies
-      run: |
-        apt-get update && apt-get install -y git curl bash coreutils
-        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-        mv kustomize /usr/local/bin/
+#    - name: Install Dependencies
+#      run: |
+#        apt-get update && apt-get install -y git curl bash coreutils
+#        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+#        mv kustomize /usr/local/bin/
 
   update-manifest:
     name: Update Manifests
