@@ -52,7 +52,7 @@ jobs:
 
   update-manifest:
     name: Update Manifests
-    needs: setup-environment
+#    needs: setup-environment
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
