@@ -8,4 +8,4 @@ resources:
 namespace: github-webapp
 images:
 - name: ghcr.io/cmarquetand/webapp
-  newTag: e078a8d
+  newTag: a5db7a5
