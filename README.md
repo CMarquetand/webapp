@@ -1,0 +1,1 @@
+This repository contains a flask webserver application together with GitHub Actions workflows for building a Docker image and pushing it to the GitHub container registry. Additionally, it contains manifest files to deploy the application to a Kubernetes cluster.
